@@ -19,15 +19,6 @@ export default function DiagramGallery() {
       .then(list => setImages(list.map((name: string) => `/diagrams/${name}`)));
   }, []);
 
-  // Close modal on Esc key
-  const escHandler = useCallback((e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      setSelectedImage(null);
-      setZoom(1);
-      setPan({ x: 0, y: 0 });
-    }
-  }, []);
-
   // Navigation handlers
   const goToPrevious = useCallback(() => {
     if (selectedIndex > 0) {
@@ -77,10 +68,6 @@ export default function DiagramGallery() {
     setZoom(1);
     setPan({ x: 0, y: 0 });
   };
-
-  const zoomIn = () => setZoom(prev => Math.min(prev + 0.5, 3));
-  const zoomOut = () => setZoom(prev => Math.max(prev - 0.5, 0.5));
-  const resetZoom = () => setZoom(1);
 
   // Mouse wheel zoom handler
   const handleWheel = useCallback((e: Event) => {
