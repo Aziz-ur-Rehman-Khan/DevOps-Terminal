@@ -24,33 +24,39 @@
   ],
   "projects": [
     {
-      "name": "DevOps Firefighting & Architecture Shifts (Tooly)",
-      "description": "Sole DevOps engineer responsible for critical infrastructure maintenance and major architecture transitions. Led direct client communication, explaining technical constraints and architectural decisions when client requirements didn't align with system capabilities.",
+      "name": "Tooly",
+      "position": "Sole DevOps Engineer",
+      "description": "Maintained critical infrastructure and led major architecture transitions. Communicated directly with clients, explaining technical constraints and architectural decisions.",
       "link": "https://tooly.app/"
     },
     {
-      "name": "DevOps Infrastructure & CI/CD (FitForever)",
-      "description": "Sole DevOps engineer managing cloud infrastructure, CI/CD pipelines, and deployment automation for the fitness platform. Ensured high availability and performance for personalized fitness programs.",
+      "name": "FitForever",
+      "position": "Sole DevOps Engineer",
+      "description": "Managed cloud infrastructure, CI/CD pipelines, and deployment automation. Ensured high availability and performance for personalized fitness programs.",
       "link": "https://fitforever.com/"
     },
     {
-      "name": "DevOps & Cloud Infrastructure (GolfForever)",
-      "description": "Sole DevOps engineer handling cloud infrastructure, monitoring, and deployment automation for the golf training platform. Managed scalable infrastructure supporting video-based training systems.",
+      "name": "GolfForever",
+      "position": "Sole DevOps Engineer",
+      "description": "Handled cloud infrastructure, monitoring, and deployment automation for a scalable video-based training platform.",
       "link": "https://golfforever.com/"
     },
     {
-      "name": "Microservices Migration (Duett)",
-      "description": "Led a 14-member team in migrating from monolithic to microservices architecture, designing and implementing a multi-account AWS strategy for secure, isolated environments.",
+      "name": "Duett",
+      "position": "Lead DevOps Engineer",
+      "description": "Led a 14-member team migrating from monolith to microservices. Designed and implemented a multi-account AWS strategy for secure, isolated environments.",
       "link": "https://www.duett.io/"
     },
     {
-      "name": "Zero Trust Architecture (Xquic)",
-      "description": "Implemented Zero Trust Architecture using AWS ECS and RDS, built secure cloud infrastructure with Terraform, and optimized CI/CD pipelines for performance and reliability.",
+      "name": "Xquic",
+      "position": "DevOps Engineer",
+      "description": "Implemented Zero Trust Architecture using AWS ECS and RDS. Built secure cloud infrastructure with Terraform and optimized CI/CD pipelines.",
       "link": "https://xquic.com/"
     },
     {
-      "name": "Azure Tenant Migration (Freelance)",
-      "description": "Led a POC migration of infrastructure between Azure tenants, developed build pipelines, automated releases, and ensured secure, compliant IaC deployments with Bicep.",
+      "name": "Weatherbys (Freelance)",
+      "position": "Freelance DevOps Engineer",
+      "description": "Led POC migration between Azure tenants, developed build pipelines, automated releases, and ensured secure, compliant IaC deployments with Bicep.",
       "link": "https://www.weatherbys.co.uk/racing"
     }
   ],

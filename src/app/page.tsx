@@ -19,6 +19,7 @@ interface Contact {
 
 interface Project {
   name: string;
+  position: string;
   description: string;
   link: string;
 }
@@ -348,9 +349,12 @@ export default function Home() {
                   }}
                 >
                   <div className="relative">
-                    <h3 className="text-xl font-semibold text-purple-200 mb-3 group-hover:text-green-400 transition-colors">
+                    <h3 className="text-xl font-semibold text-green-400 mb-2 group-hover:text-green-300 transition-colors">
                       {project.name}
                     </h3>
+                    <p className="text-purple-300 italic text-sm mb-3 font-mono">
+                      {project.position}
+                    </p>
                     <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
                     <div className="flex items-center text-green-400 text-sm font-mono">
                       <span>View Project</span>
@@ -391,7 +395,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <GlitchText
-                text="Education"
+                text="<Education />"
                 className="text-3xl font-bold text-purple-400"
                 intensity={0.15}
                 frequency={0.005}
@@ -447,7 +451,7 @@ export default function Home() {
               >
                 <GlitchText
                   text="Get In Touch"
-                  className="text-2xl font-bold text-purple-400"
+                  className="text-2xl font-bold text-blue-400"
                   intensity={0.1}
                   frequency={0.003}
                 />
@@ -458,7 +462,7 @@ export default function Home() {
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-blue-400 font-mono text-sm sm:text-base">Email:</span>
+                  <span className="text-purple-400 font-mono text-sm sm:text-base">Email:</span>
                   <a href={`mailto:${content.contact.email}`} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal">
                     {content.contact.email}
                   </a>
@@ -468,7 +472,7 @@ export default function Home() {
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-blue-400 font-mono text-sm sm:text-base">GitHub:</span>
+                  <span className="text-purple-400 font-mono text-sm sm:text-base">GitHub:</span>
                   <a href={content.contact.github} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal" target="_blank" rel="noopener noreferrer">
                     github.com
                   </a>
@@ -478,7 +482,7 @@ export default function Home() {
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-blue-400 font-mono text-sm sm:text-base">LinkedIn:</span>
+                  <span className="text-purple-400 font-mono text-sm sm:text-base">LinkedIn:</span>
                   <a href={content.contact.linkedin} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal" target="_blank" rel="noopener noreferrer">
                     linkedin.com
                   </a>
@@ -489,7 +493,7 @@ export default function Home() {
                     whileHover={{ x: 10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <span className="text-blue-400 font-mono text-sm sm:text-base">Medium:</span>
+                    <span className="text-purple-400 font-mono text-sm sm:text-base">Medium:</span>
                     <a href={content.contact.medium} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal" target="_blank" rel="noopener noreferrer">
                       medium.com
                     </a>
