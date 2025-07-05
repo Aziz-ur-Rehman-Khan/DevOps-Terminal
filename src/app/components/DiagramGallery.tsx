@@ -12,14 +12,29 @@ export default function DiagramGallery() {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [swipeStart, setSwipeStart] = useState({ x: 0, y: 0 });
+  const [isSwiping, setIsSwiping] = useState(false);
+  const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch('/diagrams/diagrams.json')
       .then(res => res.json())
-      .then(list => setImages(list.map((name: string) => `/diagrams/${name}`)));
+      .then(list => {
+        const imageList = list.map((name: string) => `/diagrams/${name}`);
+        setImages(imageList);
+        
+        // Preload all images
+        imageList.forEach((src: string) => {
+          const img = new window.Image();
+          img.src = src;
+          img.onload = () => {
+            setPreloadedImages(prev => new Set(prev).add(src));
+          };
+        });
+      });
   }, []);
 
-  // Navigation handlers
+  // Navigation handlers - optimized for speed
   const goToPrevious = useCallback(() => {
     if (selectedIndex > 0) {
       setSelectedIndex(selectedIndex - 1);
@@ -106,26 +121,59 @@ export default function DiagramGallery() {
 
   // Touch handlers for mobile
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (zoom > 1 && e.touches.length === 1) {
-      setIsDragging(true);
+    if (e.touches.length === 1) {
       const touch = e.touches[0];
-      setDragStart({ x: touch.clientX - pan.x, y: touch.clientY - pan.y });
+      setSwipeStart({ x: touch.clientX, y: touch.clientY });
+      setIsSwiping(true);
+      
+      if (zoom > 1) {
+        setIsDragging(true);
+        setDragStart({ x: touch.clientX - pan.x, y: touch.clientY - pan.y });
+      }
     }
   }, [zoom, pan]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (isDragging && zoom > 1 && e.touches.length === 1) {
-      e.preventDefault();
+    if (e.touches.length === 1) {
       const touch = e.touches[0];
-      const newX = touch.clientX - dragStart.x;
-      const newY = touch.clientY - dragStart.y;
-      setPan({ x: newX, y: newY });
+      const deltaX = touch.clientX - swipeStart.x;
+      const deltaY = touch.clientY - swipeStart.y;
+      
+      // If zoomed in, handle panning
+      if (isDragging && zoom > 1) {
+        e.preventDefault();
+        const newX = touch.clientX - dragStart.x;
+        const newY = touch.clientY - dragStart.y;
+        setPan({ x: newX, y: newY });
+      }
+      // If not zoomed, allow swipe detection
+      else if (isSwiping && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        e.preventDefault();
+      }
     }
-  }, [isDragging, zoom, dragStart]);
+  }, [isDragging, zoom, dragStart, isSwiping, swipeStart]);
 
-  const handleTouchEnd = useCallback(() => {
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (isSwiping && !isDragging) {
+      const touch = e.changedTouches[0];
+      const deltaX = touch.clientX - swipeStart.x;
+      const deltaY = touch.clientY - swipeStart.y;
+      
+      // Detect horizontal swipe
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 100) {
+        if (deltaX > 0 && selectedIndex > 0) {
+          // Swipe right - go to previous
+          goToPrevious();
+        } else if (deltaX < 0 && selectedIndex < images.length - 1) {
+          // Swipe left - go to next
+          goToNext();
+        }
+      }
+    }
+    
     setIsDragging(false);
-  }, []);
+    setIsSwiping(false);
+  }, [isSwiping, isDragging, swipeStart, selectedIndex, images.length, goToPrevious, goToNext]);
 
   useEffect(() => {
     if (selectedImage) {
@@ -145,17 +193,18 @@ export default function DiagramGallery() {
           <motion.div
             key={src}
             className="glass rounded-lg shadow-lg overflow-hidden relative group"
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: idx * 0.1 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
             whileHover={{ scale: 1.05, boxShadow: "0 0 20px #00ff41" }}
           >
             <Image
               src={src}
               alt={`Diagram ${idx + 1}`}
-              className="w-full h-64 object-contain bg-white cursor-pointer transition"
+              className="w-full h-64 object-contain bg-white cursor-pointer transition-all duration-150"
               width={256}
               height={192}
+              priority={idx < 6}
               onClick={() => openModal(src, idx)}
             />
           </motion.div>
@@ -171,14 +220,14 @@ export default function DiagramGallery() {
             exit={{ opacity: 0 }}
             onClick={closeModal}
           >
-            {/* Navigation Arrows */}
+            {/* Navigation Arrows - Hidden on mobile */}
             {selectedIndex > 0 && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   goToPrevious();
                 }}
-                className="absolute left-8 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white p-6 transition-all duration-200 z-10 group"
+                className="absolute left-8 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white p-6 transition-all duration-200 z-10 group hidden md:flex"
                 aria-label="Previous image"
               >
                 <svg className="w-12 h-12 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -193,7 +242,7 @@ export default function DiagramGallery() {
                   e.stopPropagation();
                   goToNext();
                 }}
-                className="absolute right-8 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white p-6 transition-all duration-200 z-10 group"
+                className="absolute right-8 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white p-6 transition-all duration-200 z-10 group hidden md:flex"
                 aria-label="Next image"
               >
                 <svg className="w-12 h-12 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,7 +256,7 @@ export default function DiagramGallery() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30, duration: 0.2 }}
               onClick={e => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -229,7 +278,7 @@ export default function DiagramGallery() {
                 <Image
                   src={images[selectedIndex]}
                   alt={`Diagram ${selectedIndex + 1}`}
-                  className={`max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4 border-green-400 bg-white transition-transform duration-200 ${
+                  className={`max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4 border-green-400 bg-white transition-transform duration-150 ${
                     zoom > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'
                   }`}
                   style={{ 
@@ -238,6 +287,7 @@ export default function DiagramGallery() {
                   }}
                   width={1280}
                   height={960}
+                  priority={true}
                   onDoubleClick={handleDoubleClick}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
