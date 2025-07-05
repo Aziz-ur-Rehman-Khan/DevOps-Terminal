@@ -235,7 +235,7 @@ export default function Home() {
         >
           <div className="max-w-4xl mx-auto">
             <motion.div
-              className="code-block p-8 mb-8"
+              className="code-block p-4 sm:p-8 mb-8"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -284,11 +284,11 @@ export default function Home() {
                 frequency={0.005}
               />
             </motion.div>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               {content.skills.map((skill: string, idx: number) => (
                 <motion.div
                   key={skill}
-                  className="glass px-4 py-2 rounded-full border border-green-400/30 cursor-pointer"
+                  className="glass px-3 sm:px-4 py-2 rounded-full border border-green-400/30 cursor-pointer"
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
@@ -300,7 +300,7 @@ export default function Home() {
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span className="text-green-400 font-mono text-sm">{skill}</span>
+                  <span className="text-green-400 font-mono text-xs sm:text-sm">{skill}</span>
                 </motion.div>
               ))}
             </div>
@@ -431,7 +431,7 @@ export default function Home() {
         >
           <div className="max-w-4xl mx-auto">
             <motion.div
-              className="code-block p-8"
+              className="code-block p-4 sm:p-8"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -454,43 +454,43 @@ export default function Home() {
               </motion.div>
               <div className="space-y-4">
                 <motion.div
-                  className="flex items-center space-x-3"
+                  className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-1 sm:space-y-0"
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-blue-400 font-mono">Email:</span>
-                  <a href={`mailto:${content.contact.email}`} className="text-green-400 hover-glow">
+                  <span className="text-blue-400 font-mono text-sm sm:text-base">Email:</span>
+                  <a href={`mailto:${content.contact.email}`} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal">
                     {content.contact.email}
                   </a>
                 </motion.div>
                 <motion.div
-                  className="flex items-center space-x-3"
+                  className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-1 sm:space-y-0"
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-blue-400 font-mono">GitHub:</span>
-                  <a href={content.contact.github} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
+                  <span className="text-blue-400 font-mono text-sm sm:text-base">GitHub:</span>
+                  <a href={content.contact.github} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal" target="_blank" rel="noopener noreferrer">
                     github.com
                   </a>
                 </motion.div>
                 <motion.div
-                  className="flex items-center space-x-3"
+                  className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-1 sm:space-y-0"
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="text-blue-400 font-mono">LinkedIn:</span>
-                  <a href={content.contact.linkedin} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
+                  <span className="text-blue-400 font-mono text-sm sm:text-base">LinkedIn:</span>
+                  <a href={content.contact.linkedin} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal" target="_blank" rel="noopener noreferrer">
                     linkedin.com
                   </a>
                 </motion.div>
                 {content.contact.medium && (
                   <motion.div
-                    className="flex items-center space-x-3"
+                    className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-1 sm:space-y-0"
                     whileHover={{ x: 10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <span className="text-blue-400 font-mono">Medium:</span>
-                    <a href={content.contact.medium} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
+                    <span className="text-blue-400 font-mono text-sm sm:text-base">Medium:</span>
+                    <a href={content.contact.medium} className="text-green-400 hover-glow text-sm sm:text-base break-all sm:break-normal" target="_blank" rel="noopener noreferrer">
                       medium.com
                     </a>
                   </motion.div>

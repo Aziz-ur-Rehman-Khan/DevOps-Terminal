@@ -28,7 +28,7 @@ export default function DiagramGallery() {
   return (
     <section className="py-12">
       <h2 className="text-3xl font-bold mb-8 text-center text-green-400 font-mono">&lt;Architectures /&gt;</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2 sm:px-4">
         {images.map((src, idx) => (
           <motion.div
             key={src}

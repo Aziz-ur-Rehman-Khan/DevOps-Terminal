@@ -124,31 +124,31 @@ export default function FloatingTerminal() {
             onClick={() => setIsOpen(false)}
           >
             <motion.div
-              className="w-full max-w-2xl h-96 glass rounded-lg border border-green-400/30 overflow-hidden"
+              className="w-full max-w-2xl h-80 sm:h-96 glass rounded-lg border border-green-400/30 overflow-hidden"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Terminal header */}
-              <div className="flex items-center justify-between p-3 bg-gray-900/50 border-b border-gray-700">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-900/50 border-b border-gray-700">
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
                 </div>
-                <div className="text-gray-400 font-mono text-sm">Terminal</div>
+                <div className="text-gray-400 font-mono text-xs sm:text-sm">Terminal</div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-gray-400 hover:text-red-400 transition-colors"
+                  className="text-gray-400 hover:text-red-400 transition-colors text-sm sm:text-base"
                 >
                   ✕
                 </button>
               </div>
 
               {/* Terminal content */}
-              <div className="p-4 h-full overflow-y-auto">
-                <div className="font-mono text-sm text-gray-300 space-y-2">
+              <div className="p-2 sm:p-4 h-full overflow-y-auto">
+                <div className="font-mono text-xs sm:text-sm text-gray-300 space-y-1 sm:space-y-2">
                   <div className="text-green-400">
                     Welcome to the interactive terminal!
                   </div>
@@ -158,12 +158,12 @@ export default function FloatingTerminal() {
                   
                   {/* Command history */}
                   {commandHistory.map((cmd, index) => (
-                    <div key={index} className="space-y-1">
-                      <div className="text-green-400">
+                    <div key={index} className="space-y-0.5 sm:space-y-1">
+                      <div className="text-green-400 text-xs sm:text-sm">
                         <span className="text-gray-500">aziz@portfolio:~$</span> {cmd}
                       </div>
                       {outputHistory[index] && (
-                        <div className="text-gray-300 ml-4">
+                        <div className="text-gray-300 ml-2 sm:ml-4 text-xs sm:text-sm break-words">
                           {outputHistory[index]}
                         </div>
                       )}
@@ -172,19 +172,19 @@ export default function FloatingTerminal() {
 
                   {/* Current command input */}
                   <form onSubmit={handleSubmit} className="flex items-center">
-                    <span className="text-green-400 mr-2">
+                    <span className="text-green-400 mr-1 sm:mr-2 text-xs sm:text-sm">
                       <span className="text-gray-500">aziz@portfolio:~$</span>
                     </span>
                     <input
                       type="text"
                       value={currentCommand}
                       onChange={(e) => setCurrentCommand(e.target.value)}
-                      className="flex-1 bg-transparent text-gray-300 outline-none font-mono"
+                      className="flex-1 bg-transparent text-gray-300 outline-none font-mono text-xs sm:text-sm"
                       placeholder="Enter command..."
                       autoFocus
                     />
                     <motion.span
-                      className="text-green-400 ml-1"
+                      className="text-green-400 ml-1 text-xs sm:text-sm"
                       animate={{ opacity: [1, 0] }}
                       transition={{ duration: 1, repeat: Infinity }}
                     >
