@@ -2,6 +2,7 @@
 'use client';
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function DiagramGallery() {
   const [images, setImages] = useState<string[]>([]);
@@ -37,10 +38,12 @@ export default function DiagramGallery() {
             transition={{ duration: 0.6, delay: idx * 0.1 }}
             whileHover={{ scale: 1.05, boxShadow: "0 0 20px #00ff41" }}
           >
-            <img
+            <Image
               src={src}
               alt={`Diagram ${idx + 1}`}
               className="w-full h-64 object-contain bg-white cursor-pointer transition"
+              width={256}
+              height={192}
               onClick={() => setSelectedImage(src)}
             />
           </motion.div>
@@ -71,10 +74,12 @@ export default function DiagramGallery() {
               >
                 &times;
               </button>
-              <img
+              <Image
                 src={selectedImage}
                 alt="Enlarged diagram"
                 className="w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4 border-green-400 bg-white"
+                width={1280}
+                height={960}
               />
             </motion.div>
           </motion.div>

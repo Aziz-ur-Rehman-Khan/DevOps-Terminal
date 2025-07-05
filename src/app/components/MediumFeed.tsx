@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface MediumPost {
   title: string;
@@ -68,10 +69,12 @@ export default function MediumFeed() {
           >
                 <div className="flex items-center mb-4">
                   {post.thumbnail && (
-                    <img
+                    <Image
                       src={post.thumbnail}
                       alt={post.title}
                       className="w-16 h-16 rounded-lg object-cover mr-4 border-2 border-green-400"
+                      width={64}
+                      height={64}
                     />
                   )}
                   <div>

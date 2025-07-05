@@ -3,8 +3,6 @@ import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline
 import { FaGithub, FaLinkedin, FaMedium } from 'react-icons/fa';
 import * as motion from "motion/react-client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from 'next/navigation';
-import { useCallback } from 'react';
 
 interface Contact {
   email: string;
@@ -21,18 +19,23 @@ interface Project {
   link: string;
 }
 
+interface Education {
+  degree: string;
+  institution: string;
+  year: string;
+}
+
 interface Content {
   hero: { name: string; title: string; description: string; };
   about: { heading: string; content: string; };
   skills: string[];
   projects: Project[];
+  education: Education[];
   contact: Contact;
 }
 
 export default function ResumePage() {
   const [content, setContent] = useState<Content | null>(null);
-  const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     fetch('/content.json')
@@ -50,16 +53,6 @@ export default function ResumePage() {
       }
     }
   }, []);
-
-  const handleContactClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    if (pathname === "/") {
-      const el = document.getElementById("contact");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    } else {
-      router.push("/#contact");
-    }
-  }, [pathname, router]);
 
   return (
     <main className="max-w-3xl mx-auto py-12 px-4 text-white">
@@ -176,7 +169,7 @@ export default function ResumePage() {
             {content.projects.map((project, idx) => (
               <li key={idx} className="bg-gray-800 rounded-lg p-4">
                 <a
-              
+                  href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-400 font-semibold "
@@ -191,18 +184,22 @@ export default function ResumePage() {
       )}
 
       {/* Education */}
-      <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="mb-8"
-      >
-        <h3 className="text-xl font-bold text-blue-300 mb-2">Education</h3>
-        <div>
-          <h4 className="font-semibold text-lg">BS Computer Science</h4>
-          <span className="text-gray-400 text-sm">Your University Name, 2017 – 2021</span>
-        </div>
-      </motion.section>
+      {content && (
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mb-8"
+        >
+          <h3 className="text-xl font-bold text-blue-300 mb-2">Education</h3>
+          {content.education.map((edu, idx) => (
+            <div key={idx} className="mb-4">
+              <h4 className="font-semibold text-lg">{edu.degree}</h4>
+              <span className="text-gray-400 text-sm">{edu.institution}, {edu.year}</span>
+            </div>
+          ))}
+        </motion.section>
+      )}
 
       {/* Download Button */}
       <motion.a

@@ -1,19 +1,60 @@
 'use client';
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FloatingTerminal from "./components/FloatingTerminal";
 import ParticleSystem from "./components/ParticleSystem";
 import TypewriterText from "./components/TypewriterText";
 import GlitchText from "./components/GlitchText";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+
+interface Contact {
+  email: string;
+  github: string;
+  linkedin: string;
+  phone: string;
+  medium: string;
+  location: string;
+}
+
+interface Project {
+  name: string;
+  description: string;
+  link: string;
+}
+
+interface Education {
+  degree: string;
+  institution: string;
+  year: string;
+}
+
+interface Hero {
+  name: string;
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
+interface About {
+  heading: string;
+  content: string;
+}
+
+interface Content {
+  hero: Hero;
+  about: About;
+  skills: string[];
+  projects: Project[];
+  education: Education[];
+  contact: Contact;
+}
 
 export default function Home() {
-  const [content, setContent] = useState<any>(null);
+  const [content, setContent] = useState<Content | null>(null);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     fetch('/content.json')
@@ -34,16 +75,6 @@ export default function Home() {
       }
     }
   }, [pathname]);
-
-  const handleContactClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    if (pathname === "/") {
-      const el = document.getElementById("contact");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    } else {
-      router.push("/#contact");
-    }
-  }, [pathname, router]);
 
   if (!content) {
     return (
@@ -210,7 +241,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <div className="font-mono text-green-400 mb-4">// about.js</div>
+              <div className="font-mono text-green-400 mb-4">{/* about.js */}</div>
               <motion.div
                 className="mb-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -300,7 +331,7 @@ export default function Home() {
               />
             </motion.div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {content.projects.map((project: any, idx: number) => (
+              {content.projects.map((project: Project, idx: number) => (
                 <motion.a
                   key={project.name}
                   href={project.link}
@@ -341,85 +372,132 @@ export default function Home() {
               ))}
             </div>
           </div>
-          {/* Contact Section */}
-          <motion.section
-            id="contact"
-            className="py-16 px-4 scroll-mt-24"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <div className="max-w-4xl mx-auto">
+        </motion.section>
+
+        {/* Education Section */}
+        <motion.section
+          className="py-16 px-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              className="mb-8 text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <GlitchText
+                text="Education"
+                className="text-3xl font-bold text-purple-400"
+                intensity={0.15}
+                frequency={0.005}
+              />
+            </motion.div>
+            <div className="grid md:grid-cols-1 gap-6">
+              {content.education.map((edu: Education, idx: number) => (
+                <motion.div
+                  key={idx}
+                  className="glass p-6 rounded-lg border border-gray-700 hover:border-green-400 transition-all duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ 
+                    y: -5,
+                    boxShadow: "0 10px 30px rgba(0, 255, 65, 0.2)"
+                  }}
+                >
+                  <h3 className="text-xl font-semibold text-green-400 mb-2">{edu.degree}</h3>
+                  <p className="text-gray-300 mb-2">{edu.institution}</p>
+                  <p className="text-gray-400 text-sm font-mono">{edu.year}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Contact Section */}
+        <motion.section
+          id="contact"
+          className="py-16 px-4 scroll-mt-24"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              className="code-block p-8"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="font-mono text-green-400 mb-4">{/* contact.js */}</div>
               <motion.div
-                className="code-block p-8"
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                className="mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <div className="font-mono text-green-400 mb-4">// contact.js</div>
-                <motion.div
-                  className="mb-6"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                  <GlitchText
-                    text="Get In Touch"
-                    className="text-2xl font-bold text-purple-400"
-                    intensity={0.1}
-                    frequency={0.003}
-                  />
-                </motion.div>
-                <div className="space-y-4">
-                  <motion.div
-                    className="flex items-center space-x-3"
-                    whileHover={{ x: 10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="text-blue-400 font-mono">Email:</span>
-                    <a href={`mailto:${content.contact.email}`} className="text-green-400 hover-glow">
-                      {content.contact.email}
-                    </a>
-                  </motion.div>
-                  <motion.div
-                    className="flex items-center space-x-3"
-                    whileHover={{ x: 10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="text-blue-400 font-mono">GitHub:</span>
-                    <a href={content.contact.github} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
-                      github.com
-                    </a>
-                  </motion.div>
-                  <motion.div
-                    className="flex items-center space-x-3"
-                    whileHover={{ x: 10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="text-blue-400 font-mono">LinkedIn:</span>
-                    <a href={content.contact.linkedin} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
-                      linkedin.com
-                    </a>
-                  </motion.div>
-                  {content.contact.medium && (
-                    <motion.div
-                      className="flex items-center space-x-3"
-                      whileHover={{ x: 10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <span className="text-blue-400 font-mono">Medium:</span>
-                      <a href={content.contact.medium} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
-                        medium.com
-                      </a>
-                    </motion.div>
-                  )}
-                </div>
+                <GlitchText
+                  text="Get In Touch"
+                  className="text-2xl font-bold text-purple-400"
+                  intensity={0.1}
+                  frequency={0.003}
+                />
               </motion.div>
-            </div>
-          </motion.section>
+              <div className="space-y-4">
+                <motion.div
+                  className="flex items-center space-x-3"
+                  whileHover={{ x: 10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span className="text-blue-400 font-mono">Email:</span>
+                  <a href={`mailto:${content.contact.email}`} className="text-green-400 hover-glow">
+                    {content.contact.email}
+                  </a>
+                </motion.div>
+                <motion.div
+                  className="flex items-center space-x-3"
+                  whileHover={{ x: 10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span className="text-blue-400 font-mono">GitHub:</span>
+                  <a href={content.contact.github} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
+                    github.com
+                  </a>
+                </motion.div>
+                <motion.div
+                  className="flex items-center space-x-3"
+                  whileHover={{ x: 10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span className="text-blue-400 font-mono">LinkedIn:</span>
+                  <a href={content.contact.linkedin} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
+                    linkedin.com
+                  </a>
+                </motion.div>
+                {content.contact.medium && (
+                  <motion.div
+                    className="flex items-center space-x-3"
+                    whileHover={{ x: 10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <span className="text-blue-400 font-mono">Medium:</span>
+                    <a href={content.contact.medium} className="text-green-400 hover-glow" target="_blank" rel="noopener noreferrer">
+                      medium.com
+                    </a>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </div>
         </motion.section>
       </div>
 

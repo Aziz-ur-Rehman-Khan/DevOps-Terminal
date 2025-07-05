@@ -39,6 +39,13 @@
       "link": "https://www.weatherbys.co.uk/racing"
     }
   ],
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science",
+      "institution": "FAST-NUCES, Lahore",
+      "year": "2018-2022"
+    }
+  ],
   "contact": {
     "email": "azizurehmankhan.dev@gmail.com",
     "github": "https://github.com/Aziz-ur-Rehman-Khan",

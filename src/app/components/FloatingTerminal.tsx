@@ -3,12 +3,47 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FiTerminal } from "react-icons/fi";
 
+interface Contact {
+  email: string;
+  github: string;
+  linkedin: string;
+  phone: string;
+  medium: string;
+  location: string;
+}
+
+interface Project {
+  name: string;
+  description: string;
+  link: string;
+}
+
+interface Education {
+  degree: string;
+  institution: string;
+  year: string;
+}
+
+interface About {
+  heading: string;
+  content: string;
+}
+
+interface Content {
+  hero: { name: string; title: string; description: string; };
+  about: About;
+  skills: string[];
+  projects: Project[];
+  education: Education[];
+  contact: Contact;
+}
+
 export default function FloatingTerminal() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentCommand, setCurrentCommand] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [outputHistory, setOutputHistory] = useState<string[]>([]);
-  const [content, setContent] = useState<any>(null);
+  const [content, setContent] = useState<Content | null>(null);
 
   useEffect(() => {
     fetch('/content.json')
@@ -18,10 +53,11 @@ export default function FloatingTerminal() {
   }, []);
 
   const commands = {
-    help: "Available commands: help, about, skills, projects, contact, clear, exit",
+    help: "Available commands: help, about, skills, projects, education, contact, clear, exit",
     about: content?.about?.content || "Loading...",
     skills: content?.skills?.join('\n') || "Loading...",
-    projects: content?.projects?.map((p: any) => `${p.name}: ${p.description}`).join('\n\n') || "Loading...",
+    projects: content?.projects?.map((p: Project) => `${p.name}: ${p.description}`).join('\n\n') || "Loading...",
+    education: content?.education?.map((edu: Education) => `${edu.degree}\n${edu.institution}, ${edu.year}`).join('\n\n') || "Loading...",
     contact: content?.contact ? 
       `Email: ${content.contact.email}\nGitHub: ${content.contact.github}\nLinkedIn: ${content.contact.linkedin}\nPhone: ${content.contact.phone}\nMedium: ${content.contact.medium}\nLocation: ${content.contact.location}` : 
       "Loading...",
@@ -117,7 +153,7 @@ export default function FloatingTerminal() {
                     Welcome to the interactive terminal!
                   </div>
                   <div className="text-gray-500">
-                    Type 'help' to see available commands.
+                    Type &apos;help&apos; to see available commands.
                   </div>
                   
                   {/* Command history */}

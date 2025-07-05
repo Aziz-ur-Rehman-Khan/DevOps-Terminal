@@ -79,7 +79,7 @@ export default function Footer() {
           transition={{ delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <span className="text-green-400">$</span> echo "Thanks for visiting!"
+          <span className="text-green-400">$</span> echo &quot;Thanks for visiting!&quot;
         </motion.div>
         
         <motion.div
