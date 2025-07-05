@@ -1,0 +1,50 @@
+{
+  "hero": {
+    "name": "Aziz ur Rehman Khan",
+    "title": "Sr. DevOps Engineer | Cloud & IaC Specialist",
+    "subtitle": "Optimizing CI/CD, Security, and Cloud Infrastructure",
+    "description": "Experienced DevOps Engineer with nearly 3 years of expertise in optimizing CI/CD pipelines, ensuring application security, and delivering scalable solutions on AWS, GCP, and Azure. Proficient in Terraform and Bicep for infrastructure as code (IaC), automating infrastructure, and transitioning from monolithic to microservices architectures."
+  },
+  "about": {
+    "heading": "About Me",
+    "content": "I am a passionate DevOps Engineer with a strong background in cloud-native solutions, infrastructure as code, and automation. I thrive on solving complex problems, leading migrations, and building secure, scalable environments across AWS, GCP, and Azure."
+  },
+  "skills": [
+    "CI/CD: Bitbucket CI/CD, GitHub Actions, Jenkins, GitLab, Azure DevOps",
+    "Cloud: AWS (ECS, RDS, EC2, ElastiCache, GuardDuty, CloudTrail, CloudWatch, WAF, Fargate)",
+    "Cloud: GCP (Compute Engine, Cloud Storage, Pub/Sub, Cloud SQL)",
+    "Cloud: Azure (ARM, Bicep, Azure DevOps)",
+    "IaC: Terraform (Modular, Public & Custom Modules), Bicep",
+    "Docker, Kubernetes",
+    "Ansible",
+    "Monitoring: Datadog, New Relic, CloudWatch",
+    "Architectures: Microservices, MVC",
+    "Security: Zero Trust Architecture, Cloudflare, PCI DSS Compliance",
+    "Project Management: Jira, Agile"
+  ],
+  "projects": [
+    {
+      "name": "Microservices Migration (Devsinc)",
+      "description": "Led a 14-member team in migrating from monolithic to microservices architecture, designing and implementing a multi-account AWS strategy for secure, isolated environments.",
+      "link": "https://www.duett.io/"
+    },
+    {
+      "name": "Zero Trust Architecture (Xquic)",
+      "description": "Implemented Zero Trust Architecture using AWS ECS and RDS, built secure cloud infrastructure with Terraform, and optimized CI/CD pipelines for performance and reliability.",
+      "link": "https://xquic.com/"
+    },
+    {
+      "name": "Azure Tenant Migration (Freelance)",
+      "description": "Led a POC migration of infrastructure between Azure tenants, developed build pipelines, automated releases, and ensured secure, compliant IaC deployments with Bicep.",
+      "link": "https://www.weatherbys.co.uk/racing"
+    }
+  ],
+  "contact": {
+    "email": "azizurehmankhan.dev@gmail.com",
+    "github": "https://github.com/Aziz-ur-Rehman-Khan",
+    "linkedin": "https://www.linkedin.com/in/aziz-ur-rehman-khan/",
+    "phone": "+92-303-4364489",
+    "medium": "https://medium.com/@azizr5050",
+    "location": "Lahore, Pakistan"
+  }
+} 
