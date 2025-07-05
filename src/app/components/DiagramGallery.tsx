@@ -14,7 +14,6 @@ export default function DiagramGallery() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [swipeStart, setSwipeStart] = useState({ x: 0, y: 0 });
   const [isSwiping, setIsSwiping] = useState(false);
-  const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch('/diagrams/diagrams.json')
@@ -27,9 +26,6 @@ export default function DiagramGallery() {
         imageList.forEach((src: string) => {
           const img = new window.Image();
           img.src = src;
-          img.onload = () => {
-            setPreloadedImages(prev => new Set(prev).add(src));
-          };
         });
       });
   }, []);
