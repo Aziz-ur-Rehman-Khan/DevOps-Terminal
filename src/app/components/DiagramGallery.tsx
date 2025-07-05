@@ -21,19 +21,13 @@ export default function DiagramGallery() {
       .then(list => {
         const imageList = list.map((name: string) => `/diagrams/${name}`);
         setImages(imageList);
-        
-        // Preload all images
-        imageList.forEach((src: string) => {
-          const img = new window.Image();
-          img.src = src;
-        });
       });
   }, []);
 
-  // Navigation handlers - optimized for speed
+  // Navigation handlers - simplified for performance
   const goToPrevious = useCallback(() => {
     if (selectedIndex > 0) {
-      setSelectedIndex(selectedIndex - 1);
+      setSelectedIndex(prev => prev - 1);
       setZoom(1);
       setPan({ x: 0, y: 0 });
     }
@@ -41,7 +35,7 @@ export default function DiagramGallery() {
 
   const goToNext = useCallback(() => {
     if (selectedIndex < images.length - 1) {
-      setSelectedIndex(selectedIndex + 1);
+      setSelectedIndex(prev => prev + 1);
       setZoom(1);
       setPan({ x: 0, y: 0 });
     }
@@ -80,7 +74,7 @@ export default function DiagramGallery() {
     setPan({ x: 0, y: 0 });
   };
 
-  // Mouse wheel zoom handler
+  // Simplified zoom handler
   const handleWheel = useCallback((e: Event) => {
     e.preventDefault();
     const wheelEvent = e as WheelEvent;
@@ -115,7 +109,7 @@ export default function DiagramGallery() {
     setIsDragging(false);
   }, []);
 
-  // Touch handlers for mobile
+  // Simplified touch handlers
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 1) {
       const touch = e.touches[0];
@@ -132,36 +126,25 @@ export default function DiagramGallery() {
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 1) {
       const touch = e.touches[0];
-      const deltaX = touch.clientX - swipeStart.x;
-      const deltaY = touch.clientY - swipeStart.y;
       
-      // If zoomed in, handle panning
       if (isDragging && zoom > 1) {
         e.preventDefault();
         const newX = touch.clientX - dragStart.x;
         const newY = touch.clientY - dragStart.y;
         setPan({ x: newX, y: newY });
       }
-      // If not zoomed, allow swipe detection
-      else if (isSwiping && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-        e.preventDefault();
-      }
     }
-  }, [isDragging, zoom, dragStart, isSwiping, swipeStart]);
+  }, [isDragging, zoom, dragStart]);
 
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (isSwiping && !isDragging) {
       const touch = e.changedTouches[0];
       const deltaX = touch.clientX - swipeStart.x;
-      const deltaY = touch.clientY - swipeStart.y;
       
-      // Detect horizontal swipe
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 100) {
+      if (Math.abs(deltaX) > 100) {
         if (deltaX > 0 && selectedIndex > 0) {
-          // Swipe right - go to previous
           goToPrevious();
         } else if (deltaX < 0 && selectedIndex < images.length - 1) {
-          // Swipe left - go to next
           goToNext();
         }
       }
@@ -191,16 +174,15 @@ export default function DiagramGallery() {
             className="glass rounded-lg shadow-lg overflow-hidden relative group"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: idx * 0.05 }}
-            whileHover={{ scale: 1.05, boxShadow: "0 0 20px #00ff41" }}
+            transition={{ duration: 0.4, delay: idx * 0.1 }}
+            whileHover={{ scale: 1.02 }}
           >
             <Image
               src={src}
               alt={`Diagram ${idx + 1}`}
-              className="w-full h-64 object-contain bg-white cursor-pointer transition-all duration-150"
+              className="w-full h-64 object-contain bg-white cursor-pointer"
               width={256}
               height={192}
-              priority={idx < 6}
               onClick={() => openModal(src, idx)}
             />
           </motion.div>
@@ -274,7 +256,7 @@ export default function DiagramGallery() {
                 <Image
                   src={images[selectedIndex]}
                   alt={`Diagram ${selectedIndex + 1}`}
-                  className={`max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4 border-green-400 bg-white transition-transform duration-150 ${
+                  className={`max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4 border-green-400 bg-white ${
                     zoom > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'
                   }`}
                   style={{ 
@@ -283,7 +265,6 @@ export default function DiagramGallery() {
                   }}
                   width={1280}
                   height={960}
-                  priority={true}
                   onDoubleClick={handleDoubleClick}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
